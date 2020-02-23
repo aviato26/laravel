@@ -1,0 +1,51 @@
+
+version: '3'
+
+networks:
+  laravel:
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+
+    container_name: nginx
+
+    ports:
+      -"8080:80"
+
+    volumes:
+      - ./api:/var/www/html
+
+    depends_on:
+      -php
+      -mysql
+    networks:
+      -laravel
+
+  mysql:
+    networks:
+      -laravel
+
+    image: mysql:5.7.22
+
+    container_name: mysql
+
+    restart: unless-stopped
+
+    tty: true
+
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+  php:
+    networks:
+      -laravel
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: php
+
+    volumes:
+      - ./api:/var/www/html
