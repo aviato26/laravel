@@ -13,7 +13,13 @@
 
 Route::get('/', function () {
     //return view('greet');
-    return view('welcome');
+    return view('signin');
+});
+
+Route::get('/apicall', 'ApiCall@getListOfCharacters');
+
+Route::get('/docs', function(){
+  return view('docs');
 });
 
 Route::get('/greet', function(){
